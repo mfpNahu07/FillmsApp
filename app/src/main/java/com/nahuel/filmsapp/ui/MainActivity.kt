@@ -1,7 +1,8 @@
-package com.nahuel.filmsapp
+package com.nahuel.filmsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.nahuel.filmsapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
