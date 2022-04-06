@@ -32,45 +32,17 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMovieBinding.bind(view)
 
-        viewModel.fetchUpcomingMovies().observe(viewLifecycleOwner, Observer { result ->
+        viewModel.fetchMainScreenMovies().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Resource.Loading -> {
-                    Log.d("LiveDataUpcoming", "Loading...")
+                    Log.d("LiveData"," Loading...")
                 }
-                is Resource.Success ->{
-                    Log.d("LiveDataUpcoming" , "${result.data}")
-                }
-                is Resource.Failure ->{
-                    Log.d("Error", "${result.exception}")
-                }
-            }
-        })
 
-        viewModel.fetchPopularMovies().observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    Log.d("LiveDataPopular", "Loading...")
+                is Resource.Success -> {
+                    Log.d("LiveData"," Upcoming:${result.data.first} \n TopRated:${result.data.second} \n Popular:${result.data.third}")
                 }
-                is Resource.Success ->{
-                    Log.d("LiveDataPopular" , "${result.data}")
-                }
-                is Resource.Failure ->{
-                    Log.d("Error", "${result.exception}")
-                }
-            }
-        })
-
-
-        viewModel.fetchTopRatedMovies().observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    Log.d("LiveDataTopRated", "Loading...")
-                }
-                is Resource.Success ->{
-                    Log.d("LiveDataTopRated" , "${result.data}")
-                }
-                is Resource.Failure ->{
-                    Log.d("Error", "${result.exception}")
+                is Resource.Failure -> {
+                    Log.d("Error","${result.exception}")
                 }
             }
         })

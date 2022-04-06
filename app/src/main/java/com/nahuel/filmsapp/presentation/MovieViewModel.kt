@@ -10,42 +10,25 @@ import kotlinx.coroutines.Dispatchers
 
 class MovieViewModel(private val repo: MovieRepository) : ViewModel() {
 
-    fun fetchUpcomingMovies() = liveData(Dispatchers.IO) {
+    fun fetchMainScreenMovies() = liveData(Dispatchers.IO) {
 
         emit(Resource.Loading())
         try {
-            emit(Resource.Success(repo.getUpcomingMovies()))
+            //De esta manera las llamadas se ejecutan en orden secuencial. Si una llamada falla directamente no
+            // se retorna nada, sino una exception. Se muestra t0do al usuario de una sola vez o nada (Fetch All Or Nothing)
+            emit(
+                Resource.Success(
+                    Triple(
+                        repo.getUpcomingMovies(),
+                        repo.getTopRatedMovies(),
+                        repo.getPopularMovies()
+                    )
+                )
+            )
         } catch (e: Exception) {
             emit(Resource.Failure(e))
         }
     }
-
-    fun fetchPopularMovies() = liveData(Dispatchers.IO) {
-
-        emit(Resource.Loading())
-        try {
-            emit(Resource.Success(repo.getPopularMovies()))
-        } catch (e: Exception) {
-            emit(Resource.Failure(e))
-        }
-    }
-
-
-    fun fetchTopRatedMovies() = liveData(Dispatchers.IO) {
-
-        emit(Resource.Loading())
-        try {
-            emit(Resource.Success(repo.getTopRatedMovies()))
-        } catch (e: Exception) {
-            emit(Resource.Failure(e))
-        }
-    }
-
-
-
-
-
-
 
 
 }
