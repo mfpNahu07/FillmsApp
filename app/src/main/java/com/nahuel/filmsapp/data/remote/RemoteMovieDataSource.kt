@@ -5,7 +5,7 @@ import com.nahuel.filmsapp.data.model.Movie
 import com.nahuel.filmsapp.data.model.MovieList
 import com.nahuel.filmsapp.repository.WebService
 
-class MovieDataSource(val webService: WebService) {
+class RemoteMovieDataSource(private val webService: WebService) {
 
     suspend fun getUpcomingMovies(): MovieList =
         webService.getUpcomingMovies(AppConstants.API_KEY)
