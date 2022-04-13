@@ -12,7 +12,10 @@
         tools:layout="@layout/fragment_movie" >
         <action
             android:id="@+id/action_movieFragment_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment" />
+            app:destination="@id/movieDetailFragment" >
+            <argument
+                android:name="backgroundImageUrl" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"

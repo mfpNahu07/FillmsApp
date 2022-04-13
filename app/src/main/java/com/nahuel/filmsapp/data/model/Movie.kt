@@ -6,14 +6,17 @@ import androidx.room.PrimaryKey
 
 //Clase con los atributos que vienen desde la API.
 data class Movie(
+
     val adult: Boolean = false,
-    val backdrop_path: String = "",
+    //val backdrop_path: String="",
+    val backdrop_path: String? = null,
     val id: Int = -1,
     val original_language: String = "",
     val original_title: String = "",
     val overview: String = "",
     val popularity: Double = -1.0,
     val poster_path: String = "",
+    //val poster_path: String? = null,
     val release_date: String = "",
     val title: String = "",
     val video: Boolean = false,
@@ -30,12 +33,14 @@ data class MovieList(val results: List<Movie> = listOf())
 //Se usa para la bdd local
 @Entity
 data class MovieEntity(
-    @PrimaryKey
-    val id: Int = -1,
+
     @ColumnInfo(name = "adult")
     val adult: Boolean = false,
     @ColumnInfo(name = "backdrop_path")
-    val backdrop_path: String = "",
+    //val backdrop_path: String="",
+    val backdrop_path: String? = null,
+    @PrimaryKey
+    val id: Int = -1,
     //val genre_ids: List<Int> = listOf(),
     @ColumnInfo(name = "original_language")
     val original_language: String = "",
@@ -47,6 +52,7 @@ data class MovieEntity(
     val popularity: Double = -1.0,
     @ColumnInfo(name = "poster_path")
     val poster_path: String = "",
+    //val poster_path: String? = null,
     @ColumnInfo(name = "release_date")
     val release_date: String = "",
     @ColumnInfo(name = "title")
@@ -85,5 +91,23 @@ fun MovieEntity.toMovie(): Movie = Movie(
     this.vote_average,
     this.vote_count,
     this.movie_type
+)
+
+fun Movie.toMovieEntity(movieType: String): MovieEntity = MovieEntity(
+
+    this.adult,
+    this.backdrop_path,
+    this.id,
+    this.original_language,
+    this.original_title,
+    this.overview,
+    this.popularity,
+    this.poster_path,
+    this.release_date,
+    this.title,
+    this.video,
+    this.vote_average,
+    this.vote_count,
+    movie_type = movieType
 )
 

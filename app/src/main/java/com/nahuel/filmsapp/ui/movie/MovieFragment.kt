@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.nahuel.filmsapp.R
 import com.nahuel.filmsapp.core.Resource
+import com.nahuel.filmsapp.data.local.AppDatabase
+import com.nahuel.filmsapp.data.local.LocalMovieDataSource
 import com.nahuel.filmsapp.data.model.Movie
 import com.nahuel.filmsapp.data.remote.RemoteMovieDataSource
 import com.nahuel.filmsapp.databinding.FragmentMovieBinding
@@ -30,7 +32,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.OnMovieCli
     private val viewModel by viewModels<MovieViewModel> {
         MovieViewModelFactory(
             MovieRepositoryImpl(
-                RemoteMovieDataSource(RetrofitClient.webservice)
+                RemoteMovieDataSource(RetrofitClient.webservice),
+                LocalMovieDataSource(AppDatabase.getDatabase(requireContext()).movieDao())
             )
         )
     }
@@ -77,7 +80,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.OnMovieCli
     override fun onMovieClick(movie: Movie) {
         Log.d("Movie", "onMovieClick:$movie")
         val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(movie.poster_path,
-            movie.backdrop_path,
+            movie.backdrop_path.toString(),
             movie.vote_average.toFloat(),
             movie.vote_count,
             movie.overview,
